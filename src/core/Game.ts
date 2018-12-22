@@ -50,6 +50,10 @@ export class Game<T extends GameState, P extends Player> {
         
     }
 
+    public $getEventStream(): Observable<BaseEvent> {
+        return this.$events;
+    }
+
     private nextState(state: T) {
         this.lastGameState = state;
         this.$events.next(new GameStateChangedEvent(state));
