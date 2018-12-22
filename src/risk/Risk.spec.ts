@@ -9,20 +9,22 @@ import { Attack } from "./Attack";
 import { Move } from "./Move";
 import { EndAttack } from "./EndAttack";
 
-describe("Risk", ()=>{
-
-    it("play", async (done)=>{
-
+describe("Risk", () => {
+    it("play", async done => {
         const adrian = new RiskPlayer("Adrian");
         const fatih = new RiskPlayer("Fatih");
 
         const g = new Risk([adrian, fatih], simpleContinent);
 
         const $all = g.$state.pipe(concat(g.$beforeAction, g.$afterAction));
-        $all.subscribe(()=>{}, ()=>{}, ()=>{
-            console.log("done");
-            done();
-        });
+        $all.subscribe(
+            () => {},
+            () => {},
+            () => {
+                console.log("done");
+                done();
+            }
+        );
 
         g.execute(new SelectStarterCountry(adrian, 0));
 
@@ -43,7 +45,5 @@ describe("Risk", ()=>{
         g.execute(new EndTurn(fatih));
 
         g.end();
-
     });
-
-})
+});

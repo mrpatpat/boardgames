@@ -3,26 +3,29 @@ import { Observable } from "rxjs";
 import { RiskPlayer } from "./RiskPlayer";
 import { filter } from "rxjs/operators";
 
-export enum RiskPhase { DEPLOY_PHASE, ATTACK_PHASE, MOVE_PHASE }
+export enum RiskPhase {
+    DEPLOY_PHASE,
+    ATTACK_PHASE,
+    MOVE_PHASE
+}
 
 export interface ICountry {
-    id: number
-    name: string
-    neighbours: number[]
-    occupist: RiskPlayer|null
-    soldiers: number
+    id: number;
+    name: string;
+    neighbours: number[];
+    occupist: RiskPlayer | null;
+    soldiers: number;
 }
 
 export interface IRiskState {
-    turn: number
-    players: RiskPlayer[]
-    countries: ICountry[]
-    currentPlayerIndex: number
-    phase: RiskPhase
+    turn: number;
+    players: RiskPlayer[];
+    countries: ICountry[];
+    currentPlayerIndex: number;
+    phase: RiskPhase;
 }
 
-export class Risk extends Game<IRiskState> {
-    
+export class Risk extends Game<IRiskState, RiskPlayer> {
     constructor(players: RiskPlayer[], countries: ICountry[]) {
         super({
             turn: 0,
@@ -32,5 +35,4 @@ export class Risk extends Game<IRiskState> {
             phase: RiskPhase.DEPLOY_PHASE
         });
     }
-
 }

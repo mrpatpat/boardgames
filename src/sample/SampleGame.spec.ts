@@ -1,12 +1,16 @@
-import { SampleGame, NextTurn, PlayMonster, Monster, NukeMonsters } from "./SampleGame";
+import {
+    SampleGame,
+    NextTurn,
+    PlayMonster,
+    Monster,
+    NukeMonsters
+} from "./SampleGame";
 import { Player } from "../core/Player";
 import { delay, merge, concat } from "rxjs/operators";
 import { Observable } from "rxjs";
 
-describe("SampleGame", ()=>{
-
-    it("should ...", async (done)=>{
-
+describe("SampleGame", () => {
+    it("should ...", async done => {
         // init stuff
         const g = new SampleGame();
         const m1 = new Monster(g);
@@ -17,10 +21,14 @@ describe("SampleGame", ()=>{
         g.$state.subscribe(s => console.log("state", s));
         g.$beforeAction.subscribe(a => console.log("beforeAction", a));
         g.$afterAction.subscribe(a => console.log("afterAction", a));
-        $all.subscribe(()=>{}, ()=>{}, ()=>{
-            console.log("done");
-            done();
-        });
+        $all.subscribe(
+            () => {},
+            () => {},
+            () => {
+                console.log("done");
+                done();
+            }
+        );
 
         // execute stuff in game
         const { player } = g.$state.getValue();
@@ -34,7 +42,5 @@ describe("SampleGame", ()=>{
         g.execute(new NextTurn(player));
         g.execute(new NextTurn(player));
         g.end();
-
     });
-
-})
+});

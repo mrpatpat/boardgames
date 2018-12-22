@@ -1,15 +1,13 @@
 import { TicTacToe } from "./TicTacToe";
 import { concat } from "rxjs/operators";
 
-describe("ticTacToe", ()=>{
-
-    it("play", async (done)=>{
-
+describe("ticTacToe", () => {
+    it("play", async done => {
         // init stuff
         const g = new TicTacToe();
 
         // subscribe to events
-        g.$winner.subscribe((p)=>{
+        g.$winner.subscribe(p => {
             expect(p.name).toBe("x");
             done();
         });
@@ -20,7 +18,5 @@ describe("ticTacToe", ()=>{
         g.markAsCurrentPlayer(1);
         g.markAsCurrentPlayer(7);
         g.markAsCurrentPlayer(2);
-
     });
-
-})
+});

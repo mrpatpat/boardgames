@@ -1,10 +1,10 @@
 import { ICountry } from "./Risk";
 
-export const simpleContinent:ICountry[] = [
+export const simpleContinent: ICountry[] = [
     {
         id: 0,
         name: "Germany",
-        neighbours: [1,2],
+        neighbours: [1, 2],
         occupist: null,
         soldiers: 0
     },
@@ -25,7 +25,7 @@ export const simpleContinent:ICountry[] = [
     {
         id: 3,
         name: "Spain",
-        neighbours: [1,4],
+        neighbours: [1, 4],
         occupist: null,
         soldiers: 0
     },
@@ -36,4 +36,4 @@ export const simpleContinent:ICountry[] = [
         occupist: null,
         soldiers: 0
     }
-]
+];

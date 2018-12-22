@@ -1,14 +1,12 @@
 import { Player } from "./Player";
 
-export abstract class Action<T> {
+export abstract class Action<T, P extends Player> {
+    public origin: P;
 
-    public origin: Player;
-    
     abstract isAllowed(state: T): boolean;
     abstract transform(state: T): T;
 
-    constructor(origin: Player) {
+    constructor(origin: P) {
         this.origin = origin;
     }
-
 }
