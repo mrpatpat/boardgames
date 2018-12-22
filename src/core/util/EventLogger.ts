@@ -24,14 +24,14 @@ export class EventLogger<T,P extends Player> {
             case BeforeActionExecutedEvent:
             case AfterActionExecutedEvent:
                 const a = (e as BeforeActionExecutedEvent<T, P>).getAction();    
-                console.log(this.getStyledClassName(e), "\t", this.getStyledActionName(a));
+                console.log(this.getStyledClassName(e), "\t", this.getStyledActionName(a), this.getStyledActionPlayerName(a));
                 break;
             case BaseErrorEvent:
                 console.log(this.getStyledErrorName(e));
                 break;
             case ActionNotAllowedEvent:
                 const b = (e as ActionNotAllowedEvent<T, P>).getAction();    
-                console.log(this.getStyledErrorName(e), "\t\t", this.getStyledActionName(b));
+                console.log(this.getStyledErrorName(e), "\t\t", this.getStyledActionName(b), this.getStyledActionPlayerName(b));
                 break;
             default:
                 console.log(this.getStyledClassName(e));
@@ -49,6 +49,10 @@ export class EventLogger<T,P extends Player> {
 
     private getStyledActionName(action: Action<T,P>): string {
         return ConsoleFgBlue + action.constructor.name + ConsoleReset;
+    }
+
+    private getStyledActionPlayerName(action: Action<T,P>): string {
+        return ConsoleFgBlue + "by " + action.origin.name + ConsoleReset;
     }
 
     public disconnect() {
