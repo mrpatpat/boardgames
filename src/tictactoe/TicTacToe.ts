@@ -3,8 +3,9 @@ import { Action } from "../core/Action";
 import { Player } from "../core/Player";
 import { filter, map } from "rxjs/operators";
 import { Observable } from "rxjs";
+import { GameState } from "../core/GameState";
 
-export interface ITicTacToeState {
+export interface ITicTacToeState extends GameState{
     grid: string[];
     currentPlayerId: number;
     players: Player[];
@@ -64,12 +65,12 @@ export class TicTacToe extends Game<ITicTacToeState, Player> {
     }
 
     public markAsCurrentPlayer(cell: number) {
-        const { currentPlayerId, players } = this.$state.getValue();
+        const { currentPlayerId, players } = this.getState();
         this.execute(new Mark(players[currentPlayerId], cell));
     }
 
     public actionCausedWin(action: Action<ITicTacToeState, Player>) {
-        const { grid } = this.$state.getValue();
+        const { grid } = this.getState();
         const winStr =
             action.origin.name + action.origin.name + action.origin.name;
         return (

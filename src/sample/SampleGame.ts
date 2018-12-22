@@ -3,8 +3,9 @@ import { Action } from "../core/Action";
 import { Player } from "../core/Player";
 import { Entity } from "../core/Entity";
 import { filter } from "rxjs/operators";
+import { GameState } from "../core/GameState";
 
-export interface ISampleState {
+export interface ISampleState extends GameState{
     turn: number;
     player: Player;
     playedMonsters: Monster[];

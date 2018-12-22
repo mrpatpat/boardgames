@@ -31,7 +31,7 @@ describe("SampleGame", () => {
         );
 
         // execute stuff in game
-        const { player } = g.$state.getValue();
+        const { player } = g.getState();
         g.execute(new NextTurn(player));
         g.execute(new NextTurn(player));
         g.execute(new PlayMonster(player, m1));

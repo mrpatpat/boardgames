@@ -12,6 +12,8 @@ describe("ticTacToe", () => {
             done();
         });
 
+        g.$afterAction.subscribe(console.log);
+
         // execute stuff in game
         g.markAsCurrentPlayer(0);
         g.markAsCurrentPlayer(8);

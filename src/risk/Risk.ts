@@ -2,6 +2,7 @@ import { Game } from "../core/Game";
 import { Observable } from "rxjs";
 import { RiskPlayer } from "./RiskPlayer";
 import { filter } from "rxjs/operators";
+import { GameState } from "../core/GameState";
 
 export enum RiskPhase {
     DEPLOY_PHASE,
@@ -17,7 +18,7 @@ export interface ICountry {
     soldiers: number;
 }
 
-export interface IRiskState {
+export interface IRiskState extends GameState{
     turn: number;
     players: RiskPlayer[];
     countries: ICountry[];
