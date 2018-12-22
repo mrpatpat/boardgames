@@ -70,9 +70,10 @@ export class Game<T extends GameState, P extends Player> {
     public execute(action: Action<T, P>) {
         if (!action.isAllowed(this.getState())) {
             this.$events.next(new ActionNotAllowedEvent(action, "This action is not allowed in this state"));
+        } else {
+            this.$events.next(new BeforeActionExecutedEvent(action));
+            this.nextState(action.transform(this.getState()));
+            this.$events.next(new AfterActionExecutedEvent(action));
         }
-        this.$events.next(new BeforeActionExecutedEvent(action));
-        this.nextState(action.transform(this.getState()));
-        this.$events.next(new AfterActionExecutedEvent(action));
     }
 }

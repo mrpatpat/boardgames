@@ -9,6 +9,10 @@ import { Move } from "./Move";
 import { EndTurn } from "./EndTurn";
 import { EventLogger } from "../core/util/EventLogger";
 
+/**
+ * You can run this with ts-node 
+ */
+
 const adrian = new RiskPlayer("Adrian");
 const fatih = new RiskPlayer("Fatih");
 
