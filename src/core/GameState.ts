@@ -1,1 +1,1 @@
-export abstract class GameState {}
+export interface GameState {}

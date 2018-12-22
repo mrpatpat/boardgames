@@ -8,7 +8,6 @@ import { AfterActionExecutedEvent } from "./events/AfterActionExecutedEvent";
 import { filter, map } from "rxjs/operators";
 import { BaseErrorEvent } from "./events/BaseErrorEvent";
 import { ActionNotAllowedEvent } from "./events/ActionNotAllowedEvent";
-
 export class Game<T extends GameState> {
     private lastGameState: T;
 

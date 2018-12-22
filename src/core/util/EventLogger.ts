@@ -7,15 +7,17 @@ import { Action } from "../Action";
 import { AfterActionExecutedEvent } from "../events/AfterActionExecutedEvent";
 import { BaseErrorEvent } from "../events/BaseErrorEvent";
 import { ActionNotAllowedEvent } from "../events/ActionNotAllowedEvent";
+import { GameState } from "../GameState";
+import { Game } from "../Game";
 
-export class EventLogger<T> {
+export class EventLogger<T extends GameState> {
     private subscription: Subscription | null = null;
 
-    public connect($events: Observable<BaseEvent>) {
-        this.subscription = $events.subscribe(e => this.log(e));
+    public connect(game: Game<T>) {
+        this.subscription = game.$getEventStream().subscribe(e => this.log(e));
     }
 
-    private log(e: BaseEvent) {
+    public log(e: BaseEvent) {
         switch (e.constructor) {
             case GameStateChangedEvent:
                 console.log(this.getStyledClassName(e));
@@ -38,15 +40,15 @@ export class EventLogger<T> {
         }
     }
 
-    private getStyledErrorName(e: BaseEvent): string {
+    public getStyledErrorName(e: BaseEvent): string {
         return ConsoleFgRed + e.constructor.name + ConsoleReset;
     }
 
-    private getStyledClassName(e: BaseEvent): string {
+    public getStyledClassName(e: BaseEvent): string {
         return ConsoleFgYellow + e.constructor.name + ConsoleReset;
     }
 
-    private getStyledActionName(action: Action<T>): string {
+    public getStyledActionName(action: Action<T>): string {
         return ConsoleFgBlue + action.constructor.name + ConsoleReset;
     }
 
