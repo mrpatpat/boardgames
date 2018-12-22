@@ -1,17 +1,15 @@
 import { Action } from "../Action";
-import { Player } from "../Player";
 import { BaseErrorEvent } from "./BaseErrorEvent";
 
-export class ActionNotAllowedEvent<T, P extends Player> extends BaseErrorEvent {
-    private action: Action<T, P>;
+export class ActionNotAllowedEvent<T> extends BaseErrorEvent {
+    private action: Action<T>;
 
-    constructor(action: Action<T, P>, message: string) {
+    constructor(action: Action<T>, message: string) {
         super(message);
         this.action = action;
     }
 
-    public getAction(): Action<T, P> {
+    public getAction(): Action<T> {
         return this.action;
     }
-
 }

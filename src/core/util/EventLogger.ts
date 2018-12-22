@@ -4,12 +4,11 @@ import { ConsoleBgYellow, ConsoleFgBlue, ConsoleReset, ConsoleFgYellow, ConsoleF
 import { GameStateChangedEvent } from "../events/GameStateChangedEvent";
 import { BeforeActionExecutedEvent } from "../events/BeforeActionExecutedEvent";
 import { Action } from "../Action";
-import { Player } from "../Player";
 import { AfterActionExecutedEvent } from "../events/AfterActionExecutedEvent";
 import { BaseErrorEvent } from "../events/BaseErrorEvent";
 import { ActionNotAllowedEvent } from "../events/ActionNotAllowedEvent";
 
-export class EventLogger<T,P extends Player> {
+export class EventLogger<T> {
     private subscription: Subscription | null = null;
 
     public connect($events: Observable<BaseEvent>) {
@@ -23,15 +22,15 @@ export class EventLogger<T,P extends Player> {
                 break;
             case BeforeActionExecutedEvent:
             case AfterActionExecutedEvent:
-                const a = (e as BeforeActionExecutedEvent<T, P>).getAction();    
-                console.log(this.getStyledClassName(e), "\t", this.getStyledActionName(a), this.getStyledActionPlayerName(a));
+                const a = (e as BeforeActionExecutedEvent<T>).getAction();    
+                console.log(this.getStyledClassName(e), "\t", this.getStyledActionName(a));
                 break;
             case BaseErrorEvent:
                 console.log(this.getStyledErrorName(e));
                 break;
             case ActionNotAllowedEvent:
-                const b = (e as ActionNotAllowedEvent<T, P>).getAction();    
-                console.log(this.getStyledErrorName(e), "\t\t", this.getStyledActionName(b), this.getStyledActionPlayerName(b));
+                const b = (e as ActionNotAllowedEvent<T>).getAction();    
+                console.log(this.getStyledErrorName(e), "\t\t", this.getStyledActionName(b));
                 break;
             default:
                 console.log(this.getStyledClassName(e));
@@ -47,12 +46,8 @@ export class EventLogger<T,P extends Player> {
         return ConsoleFgYellow + e.constructor.name + ConsoleReset;
     }
 
-    private getStyledActionName(action: Action<T,P>): string {
+    private getStyledActionName(action: Action<T>): string {
         return ConsoleFgBlue + action.constructor.name + ConsoleReset;
-    }
-
-    private getStyledActionPlayerName(action: Action<T,P>): string {
-        return ConsoleFgBlue + "by " + action.origin.name + ConsoleReset;
     }
 
     public disconnect() {

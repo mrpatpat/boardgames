@@ -1,6 +1,5 @@
 import { Action } from "./Action";
-import { BehaviorSubject, ReplaySubject, Observable } from "rxjs";
-import { Player } from "./Player";
+import { BehaviorSubject, Observable } from "rxjs";
 import { GameState } from "./GameState";
 import { BaseEvent } from "./events/BaseEvent";
 import { GameStateChangedEvent } from "./events/GameStateChangedEvent";
@@ -10,14 +9,14 @@ import { filter, map } from "rxjs/operators";
 import { BaseErrorEvent } from "./events/BaseErrorEvent";
 import { ActionNotAllowedEvent } from "./events/ActionNotAllowedEvent";
 
-export class Game<T extends GameState, P extends Player> {
+export class Game<T extends GameState> {
     private lastGameState: T;
 
     private $events: BehaviorSubject<BaseEvent>;
 
     public $state: Observable<T>;
-    public $beforeAction: Observable<Action<T, P>>;
-    public $afterAction: Observable<Action<T, P>>;
+    public $beforeAction: Observable<Action<T>>;
+    public $afterAction: Observable<Action<T>>;
 
     public $errors: Observable<BaseErrorEvent>;
 
@@ -35,19 +34,18 @@ export class Game<T extends GameState, P extends Player> {
 
         this.$beforeAction = this.$events.pipe(
             filter(e => e instanceof BeforeActionExecutedEvent),
-            map(e => (e as BeforeActionExecutedEvent<T, P>).getAction())
+            map(e => (e as BeforeActionExecutedEvent<T>).getAction())
         );
 
         this.$afterAction = this.$events.pipe(
             filter(e => e instanceof AfterActionExecutedEvent),
-            map(e => (e as AfterActionExecutedEvent<T, P>).getAction())
+            map(e => (e as AfterActionExecutedEvent<T>).getAction())
         );
 
         this.$errors = this.$events.pipe(
             filter(e => e instanceof BaseErrorEvent),
-            map(e => (e as BaseErrorEvent))
+            map(e => e as BaseErrorEvent)
         );
-        
     }
 
     public $getEventStream(): Observable<BaseEvent> {
@@ -67,9 +65,14 @@ export class Game<T extends GameState, P extends Player> {
         this.$events.complete();
     }
 
-    public execute(action: Action<T, P>) {
+    public execute(action: Action<T>) {
         if (!action.isAllowed(this.getState())) {
-            this.$events.next(new ActionNotAllowedEvent(action, "This action is not allowed in this state"));
+            this.$events.next(
+                new ActionNotAllowedEvent(
+                    action,
+                    "This action is not allowed in this state"
+                )
+            );
         } else {
             this.$events.next(new BeforeActionExecutedEvent(action));
             this.nextState(action.transform(this.getState()));
