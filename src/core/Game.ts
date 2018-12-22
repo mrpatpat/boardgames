@@ -7,6 +7,8 @@ import { GameStateChangedEvent } from "./events/GameStateChangedEvent";
 import { BeforeActionExecutedEvent } from "./events/BeforeActionExecutedEvent";
 import { AfterActionExecutedEvent } from "./events/AfterActionExecutedEvent";
 import { filter, map } from "rxjs/operators";
+import { BaseErrorEvent } from "./events/BaseErrorEvent";
+import { ActionNotAllowedEvent } from "./events/ActionNotAllowedEvent";
 
 export class Game<T extends GameState, P extends Player> {
     private lastGameState: T;
@@ -16,6 +18,8 @@ export class Game<T extends GameState, P extends Player> {
     public $state: Observable<T>;
     public $beforeAction: Observable<Action<T, P>>;
     public $afterAction: Observable<Action<T, P>>;
+
+    public $errors: Observable<BaseErrorEvent>;
 
     constructor(initialState: T) {
         this.lastGameState = initialState;
@@ -38,6 +42,11 @@ export class Game<T extends GameState, P extends Player> {
             filter(e => e instanceof AfterActionExecutedEvent),
             map(e => (e as AfterActionExecutedEvent<T, P>).getAction())
         );
+
+        this.$errors = this.$events.pipe(
+            filter(e => e instanceof BaseErrorEvent),
+            map(e => (e as BaseErrorEvent))
+        );
         
     }
 
@@ -56,7 +65,7 @@ export class Game<T extends GameState, P extends Player> {
 
     public execute(action: Action<T, P>) {
         if (!action.isAllowed(this.getState())) {
-            throw new Error("Action is not allowed!");
+            this.$events.next(new ActionNotAllowedEvent(action, "This action is not allowed in this state"));
         }
         this.$events.next(new BeforeActionExecutedEvent(action));
         this.nextState(action.transform(this.getState()));
