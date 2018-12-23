@@ -1,6 +1,6 @@
-import { Observable, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 import { BaseEvent } from "../events/BaseEvent";
-import { ConsoleBgYellow, ConsoleFgBlue, ConsoleReset, ConsoleFgYellow, ConsoleFgRed, ConsoleFgGreen } from "./ConsoleColors";
+import { ConsoleFgBlue, ConsoleReset, ConsoleFgYellow, ConsoleFgRed } from "./ConsoleColors";
 import { GameStateChangedEvent } from "../events/GameStateChangedEvent";
 import { BeforeActionExecutedEvent } from "../events/BeforeActionExecutedEvent";
 import { Action } from "../Action";
@@ -11,7 +11,7 @@ import { GameState } from "../GameState";
 import { Game } from "../Game";
 
 export class EventLogger<T extends GameState> {
-    private subscription: Subscription | null = null;
+    private subscription?: Subscription = undefined;
 
     public connect(game: Game<T>) {
         this.subscription = game.$getEventStream().subscribe(e => this.log(e));

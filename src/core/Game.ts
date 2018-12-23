@@ -74,7 +74,8 @@ export class Game<T extends GameState> {
             );
         } else {
             this.$events.next(new BeforeActionExecutedEvent(action));
-            this.nextState(action.transform(this.getState()));
+            const nextState = action.transform(this.getState());
+            this.nextState(nextState);
             this.$events.next(new AfterActionExecutedEvent(action));
         }
     }
