@@ -14,7 +14,13 @@ export class NewGame extends SolitaireAction {
         const cards = StandardCard.buildDeck();
         cards.shuffle();
         this.formTableau(cards, state);
+        this.formStock(cards, state);
         return { ...state };
+    }
+
+    private formStock(cards: StandardCardStack, state: SolitaireState) {
+        cards.getCards().forEach(c=>c.setFaceDown(true));
+        state.stock.push(...cards.getCards());
     }
 
     private formTableau(cards: StandardCardStack, state: SolitaireState) {
