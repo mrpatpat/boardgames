@@ -1,10 +1,10 @@
 import { Game } from "../../core/Game";
-import { SolitaireState, initialState } from "./SolitaireState";
+import { SolitaireState, buildInitialState } from "./SolitaireState";
 
 export class Solitaire extends Game<SolitaireState> {
 
     constructor() {
-        super(initialState);
+        super(buildInitialState());
     }
 
 }

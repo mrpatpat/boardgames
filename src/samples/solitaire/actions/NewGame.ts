@@ -1,4 +1,4 @@
-import { SolitaireState } from "../SolitaireState";
+import { SolitaireState, buildInitialState } from "../SolitaireState";
 import { SolitaireAction } from "./SolitaireAction";
 import { StandardCard } from "../../../cards-core/fifty-two-cards/StandardCard";
 import { StandardCardStack } from "../../../cards-core/fifty-two-cards/StandardCardStack";
@@ -11,11 +11,12 @@ export class NewGame extends SolitaireAction {
         );
     }
     transform(state: SolitaireState): SolitaireState {
+        const n = buildInitialState();
         const cards = StandardCard.buildDeck();
         cards.shuffle();
-        this.formTableau(cards, state);
-        this.formStock(cards, state);
-        return { ...state };
+        this.formTableau(cards, n);
+        this.formStock(cards, n);
+        return n;
     }
 
     private formStock(cards: StandardCardStack, state: SolitaireState) {
