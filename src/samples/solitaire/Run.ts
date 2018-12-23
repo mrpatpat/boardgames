@@ -1,5 +1,4 @@
 import { Solitaire } from "./Solitaire";
-import { EventLogger } from "../../core/util/EventLogger";
 import { NewGame } from "./actions/NewGame";
 import { SolitaireLogger } from "./util/SolitaireLogger";
 
