@@ -2,6 +2,7 @@ import * as inquirer from "inquirer";
 import { MoveFromTableauToFoundation } from "./actions/MoveFromTableauToFoundation";
 import { NewGame } from "./actions/NewGame";
 import { Solitaire } from "./Solitaire";
+import { StockToTalon } from "./actions/StockToTalon";
 
 const tableauToFoundationPrompt = (g: Solitaire) =>
     inquirer
@@ -37,10 +38,13 @@ export const mainPrompt = (g: Solitaire) =>
             type: "list",
             name: "action",
             message: "Choose your action",
-            choices: ["tableau to foundation", "new game", "exit"]
+            choices: ["stock to talon", "tableau to foundation", "new game", "exit"]
         })
         .then((answers: any) => {
             switch (answers.action) {
+                case "stock to talon":
+                    g.execute(new StockToTalon());
+                    break;
                 case "tableau to foundation":
                     tableauToFoundationPrompt(g);
                     break;
