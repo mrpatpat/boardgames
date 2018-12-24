@@ -11,7 +11,7 @@ import { ActionNotAllowedEvent } from "./events/ActionNotAllowedEvent";
 export class Game<T extends GameState> {
     private lastGameState: T;
 
-    private $events: BehaviorSubject<BaseEvent>;
+    protected $events: BehaviorSubject<BaseEvent>;
 
     public $state: Observable<T>;
     public $beforeAction: Observable<Action<T>>;
@@ -45,6 +45,10 @@ export class Game<T extends GameState> {
             filter(e => e instanceof BaseErrorEvent),
             map(e => e as BaseErrorEvent)
         );
+    }
+
+    public triggerError(e: BaseErrorEvent) {
+        this.$events.next(e);
     }
 
     public $getEventStream(): Observable<BaseEvent> {

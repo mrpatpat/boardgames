@@ -28,7 +28,7 @@ export class EventLogger<T extends GameState> {
                 console.log(this.getStyledClassName(e), "\t", this.getStyledActionName(a));
                 break;
             case BaseErrorEvent:
-                console.log(this.getStyledErrorName(e));
+                console.log(this.getStyledErrorName(e), "\t", (e as BaseErrorEvent).getMessage());
                 break;
             case ActionNotAllowedEvent:
                 const b = (e as ActionNotAllowedEvent<T>).getAction();    
