@@ -1,5 +1,6 @@
-import { Action } from "./Action";
 import { BehaviorSubject, Observable } from "rxjs";
+import _ from "lodash";
+import { Action } from "./Action";
 import { GameState } from "./GameState";
 import { BaseEvent } from "./events/BaseEvent";
 import { GameStateChangedEvent } from "./events/GameStateChangedEvent";
@@ -9,7 +10,7 @@ import { filter, map } from "rxjs/operators";
 import { BaseErrorEvent } from "./events/BaseErrorEvent";
 import { ActionNotAllowedEvent } from "./events/ActionNotAllowedEvent";
 export class Game<T extends GameState> {
-    private lastGameState: T;
+    private gameState: T;
 
     private $events: BehaviorSubject<BaseEvent>;
 
@@ -20,7 +21,7 @@ export class Game<T extends GameState> {
     public $errors: Observable<BaseErrorEvent>;
 
     constructor(initialState: T) {
-        this.lastGameState = initialState;
+        this.gameState = _.cloneDeep(initialState);
 
         this.$events = new BehaviorSubject<BaseEvent>(
             new GameStateChangedEvent(initialState)
@@ -52,12 +53,12 @@ export class Game<T extends GameState> {
     }
 
     private nextState(state: T) {
-        this.lastGameState = state;
+        this.gameState = state;
         this.$events.next(new GameStateChangedEvent(state));
     }
 
     public getState(): T {
-        return this.lastGameState;
+        return this.gameState;
     }
 
     public end() {

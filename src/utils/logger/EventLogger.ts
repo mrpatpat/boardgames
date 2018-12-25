@@ -1,14 +1,14 @@
 import { Subscription } from "rxjs";
-import { BaseEvent } from "../events/BaseEvent";
+import { BaseEvent } from "../../core/events/BaseEvent";
 import { ConsoleFgBlue, ConsoleReset, ConsoleFgYellow, ConsoleFgRed } from "./ConsoleColors";
-import { GameStateChangedEvent } from "../events/GameStateChangedEvent";
-import { BeforeActionExecutedEvent } from "../events/BeforeActionExecutedEvent";
-import { Action } from "../Action";
-import { AfterActionExecutedEvent } from "../events/AfterActionExecutedEvent";
-import { BaseErrorEvent } from "../events/BaseErrorEvent";
-import { ActionNotAllowedEvent } from "../events/ActionNotAllowedEvent";
-import { GameState } from "../GameState";
-import { Game } from "../Game";
+import { GameStateChangedEvent } from "../../core/events/GameStateChangedEvent";
+import { BeforeActionExecutedEvent } from "../../core/events/BeforeActionExecutedEvent";
+import { Action } from "../../core/Action";
+import { AfterActionExecutedEvent } from "../../core/events/AfterActionExecutedEvent";
+import { BaseErrorEvent } from "../../core/events/BaseErrorEvent";
+import { ActionNotAllowedEvent } from "../../core/events/ActionNotAllowedEvent";
+import { GameState } from "../../core/GameState";
+import { Game } from "../../core/Game";
 
 export class EventLogger<T extends GameState> {
     private subscription?: Subscription = undefined;
