@@ -1,5 +1,6 @@
 import { Game } from './Game';
 import { Action } from './Action';
+import { ActionNotAllowedEvent } from './events/ActionNotAllowedEvent';
 
 describe('Game', () => {
     it('should set the given inital state at the start of the game', () => {
@@ -44,6 +45,8 @@ describe('Game', () => {
             currentPlayer: 0
         };
         const game = new Game(initalGameState);
+        let errorsThrown = 0;
+        game.$errors.subscribe(() => errorsThrown++);
         const nextPlayerAction = {
             isAllowed(): boolean {
                 return false;
@@ -56,5 +59,6 @@ describe('Game', () => {
         game.execute(nextPlayerAction);
 
         expect(game.getState()).toEqual(initalGameState);
-    })
+        expect(errorsThrown).toBe(1);
+    });
 });
